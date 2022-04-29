@@ -1,9 +1,10 @@
-import { Flex } from '@chakra-ui/layout';
+import { NavBar } from '../components/NavBar';
 
 const Index = () => (
-  <Flex>
+  <>
+    <NavBar />
     <h1>Hello Next.js</h1>
-  </Flex>
+  </>
 );
 
 export default Index;

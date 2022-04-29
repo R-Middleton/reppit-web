@@ -5,8 +5,7 @@ mutation Regsiter($username: String!, $password: String!) {
       message
     }
     user {
-      username
-      _id
+      ...RegularUser
     }
   }
 }
