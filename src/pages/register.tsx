@@ -10,7 +10,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { values } from 'lodash';
-import { Wrapper } from '../components/wrapper';
+import { Wrapper } from '../components/Wrapper';
 import { InputField } from '../components/InputField';
 import { useMutation } from 'urql';
 
