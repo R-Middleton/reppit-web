@@ -6,33 +6,68 @@ import {
   FormErrorMessage,
   FormHelperText,
   Input,
+  Box,
+  Button,
 } from '@chakra-ui/react';
 import { values } from 'lodash';
 import { Wrapper } from '../components/wrapper';
+import { InputField } from '../components/InputField';
+import { useMutation } from 'urql';
 
 interface registerProps {}
 
+const RESGISTER_MUT = `
+mutation Regsiter($username: String!, $password: String!) {
+  Register(options: {username:$username, password:$password} ) {
+    errors {
+      field
+      message
+    }
+    user {
+      username
+      _id
+    }
+  }
+}`;
+
 export const Register: React.FC<registerProps> = ({}) => {
+  const [, regsiter] = useMutation(RESGISTER_MUT);
+
   return (
     <Wrapper variant='small'>
       <Formik
         initialValues={{ username: '', password: '' }}
         onSubmit={(values) => {
           console.log(values);
+          return regsiter({
+            username: values.username,
+            password: values.password,
+          });
         }}
       >
-        {({ values, handleChange }) => (
+        {({ isSubmitting }) => (
           <Form>
-            <FormControl>
-              <FormLabel htmlFor='username'>Username</FormLabel>
-              <Input
-                value={values.username}
-                onChange={handleChange}
-                id='username'
-                placeholder='username'
+            <InputField
+              name='username'
+              placeholder='username'
+              label='Username'
+            />
+            <Box mt={4}>
+              <InputField
+                name='password'
+                placeholder='password'
+                label='Password'
+                type='password'
               />
-              {/* <FormErrorMessage>{form.errors.name}</FormErrorMessage> */}
-            </FormControl>
+            </Box>
+            <Button
+              mt={4}
+              type='submit'
+              isLoading={isSubmitting}
+              colorScheme='teal'
+            >
+              Register
+            </Button>
           </Form>
         )}
       </Formik>
